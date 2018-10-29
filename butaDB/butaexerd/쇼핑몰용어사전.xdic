@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tm:TermDictionary xmlns:tm="http://exerd.com/term-model" version="1.1">
+  <term name="이름" description="구매자의 이름" physicalName="buyer_name"/>
+  <term name="구매자 번호" description="구매자의 인덱스" physicalName="buyer_idx"/>
+  <term name="구매자 아이디" description="구매자의 아이디" physicalName="buyer_id"/>
+  <term name="구매자 비밀번호" description="구매자의 비밀번호" physicalName="buyer_pw"/>
+  <term name="구매자 닉네임" description="구매자의 닉네임" physicalName="buyer_nick"/>
+  <term name="구매자 전화번호" description="구매자의 전화번호" physicalName="buyer_phone"/>
+  <term name="구매자 이메일" description="구매자의 이메일" physicalName="buyer_email"/>
+  <term name="구매자 집주소" description="구매자의 집주소" physicalName="buyer_address"/>
+  <term name="구매자 생년월일" description="구매자의 생년월일" physicalName="buyer_birth"/>
+  <term name="구매자 성별" description="구매자의 성별" physicalName="buyer_sex"/>
+  <term name="후기 번호" description="후기글의 인덱" physicalName="review_idx"/>
+  <term name="후기 날짜" description="후기글 작성일" physicalName="review_date"/>
+  <term name="후기 평점" description="상품의 평점" physicalName="review_grade"/>
+  <term name="후기 글내용" description="후기의 본문" physicalName="review_content"/>
+  <term name="상품 번호" description="상품의 인덱스" physicalName="product_idx"/>
+  <term name="상품 이름" description="상품의 이름" physicalName="product_name"/>
+  <term name="상품 제조회사" description="상품의 제조회사" physicalName="product_company"/>
+  <term name="상품 가격" description="상품의 가격" physicalName="product_price"/>
+  <term name="상품 설명" description="상품 설명" physicalName="product_content"/>
+  <term name="상품 등록일자" description="상품 등록일" physicalName="product_date"/>
+  <term name="상품 이미지" description="상품 관련 이미지 정보" physicalName="product_image"/>
+  <term name="공지 번호" description="공지사항 번호" physicalName="notice_idx"/>
+  <term name="공지 작성일" description="공지 작성일" physicalName="notice_date"/>
+  <term name="공지 제목" description="공지 제목" physicalName="notice_title"/>
+  <term name="공지 내용" description="공지 내용" physicalName="notice_content"/>
+  <term name="공지 이미지" description="공지사항 관련 이미지 정보" physicalName="notice_image"/>
+  <term name="주문 고유번호" description="주문내역의 번호" physicalName="orders_idx"/>
+  <term name="주문 번호" description="주문번호" physicalName="orders_id"/>
+  <term name="수령자 이름" description="수령자의 이름" physicalName="orders_recname"/>
+  <term name="수령자 주소" description="수령자의 우편번호" physicalName="orders_recaddress"/>
+  <term name="수령자 전화번호" description="수령자의 전화번호" physicalName="orders_recphone"/>
+  <term name="주문 가격" description="고객이 주문한 상품의 총합" physicalName="orders_amount"/>
+  <term name="주문 날짜" description="고객의 주문 날짜" physicalName="orders_date"/>
+  <term name="주문 취소여부" description="고객 주문 취소여부" physicalName="orders_iscancel"/>
+  <term name="판매자 번호" description="판매자의 등록번호" physicalName="seller_idx"/>
+  <term name="판매자 아이디" description="판매자의  아이디" physicalName="seller_id"/>
+  <term name="판매자 비밀번호" description="판매자의 비밀번호" physicalName="seller_pw"/>
+  <term name="판매자 전화번호" description="판매자의 연락처" physicalName="seller_phone"/>
+  <term name="판매자 등록번호" description="판매자의 사업자등록번호" physicalName="seller_permitnum"/>
+  <term name="판매자 이름" description="판매자의 이름" physicalName="seller_name"/>
+  <term name="판매자 주소" description="판매자의 사업장주소" physicalName="seller_address"/>
+  <term name="판매자 업종" description="판매자의 업종" physicalName="seller_business"/>
+  <term name="구매 수량" description="주문의 수량" physicalName="orders_amount"/>
+  <term name="배송비" description="장바구니 안의 상품의 배송비" physicalName="basket_deliverycharge"/>
+  <term name="장바구니품목번호" description="장바구니의 번호" physicalName="basket_idx"/>
+  <term name="판매자 이메일" description="판매자의 이메일" physicalName="seller_email"/>
+  <term name="대분류 번호" description="대분류 번호" physicalName="highcategory_idx"/>
+  <term name="대분류 이름" description="대분류 이름" physicalName="highcategory_name"/>
+  <term name="소분류 번호" description="소분류 번호" physicalName="lowcategory_idx"/>
+  <term name="소분류 이름" description="소분류 이름" physicalName="lowcategory_name"/>
+  <term name="경매 번호" description="경매 번호" physicalName="auction_idx"/>
+  <term name="경매 내용" description="경매 내용" physicalName="auction_content"/>
+  <term name="경매 마감날짜" description="경매 마감날짜" physicalName="auction_edate"/>
+  <term name="경매 기본금액" description="경매 기본금액" physicalName="auction_smoney"/>
+  <term name="경매 등록날짜" description="경매 시작날짜" physicalName="auction_wdate"/>
+  <term name="경매 입찰회수" description="경매 입찰횟수" physicalName="auction_sise"/>
+  <term name="경매 조회수" description="경매 조회수" physicalName="auction_hit"/>
+  <term name="입찰자 번호" description="입찰자 고유번호" physicalName="bidder_idx"/>
+  <term name="입찰자 이름" description="입찰자 이름" physicalName="bidder_name"/>
+  <term name="입찰자 이메일" description="입찰자 이메일" physicalName="bidder_email"/>
+  <term name="입찰자 전화번호" description="입찰자 전화번호" physicalName="bidder_phone"/>
+  <term name="입찰금액" description="입찰금액" physicalName="bidder_money"/>
+  <term name="상품 평점" description="상품 평점" physicalName="product_grade"/>
+  <term name="FAQ 인덱스" description="FAQ 인덱스" physicalName="faq_idx"/>
+  <term name="FAQ 제목" description="FAQ 제목" physicalName="faq_title"/>
+  <term name="FAQ 내용" description="FAQ 내용" physicalName="faq_content"/>
+  <term name="FAQ 답변" description="FAQ 답변" physicalName="faq_answer"/>
+  <term name="QNA 인덱스" description="QNA 인덱스" physicalName="qna_idx"/>
+  <term name="QNA 질문" description="QNA 질문" physicalName="qna_question"/>
+  <term name="QNA 답변" description="QNA 답변" physicalName="qna_answer"/>
+  <term name="QNA 작성일" description="QNA 작성일" physicalName="qna_date"/>
+  <term name="장바구니 수량" description="장바구니의 수량" physicalName="basket_amount"/>
+  <term name="광고 번호" description="광고 번호" physicalName="ad_idx"/>
+  <term name="광고 이미지" description="광고 이미지주소" physicalName="ad_image"/>
+  <term name="구매자 가입날짜" physicalName="buyer_joindate"/>
+  <term name="판매자 가입날짜" physicalName="seller_joindate"/>
+  <term name="상품문의 인덱스" physicalName="productqna_idx"/>
+  <term name="상품문의 질문" physicalName="productqna_question"/>
+  <term name="상품문의 답변" physicalName="productqna_answer"/>
+  <term name="상품문의 작성일" physicalName="productqna_date"/>
+</tm:TermDictionary>
