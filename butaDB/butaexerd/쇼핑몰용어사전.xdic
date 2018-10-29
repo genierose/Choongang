@@ -39,7 +39,7 @@
   <term name="판매자 비밀번호" description="판매자의 비밀번호" physicalName="seller_pw"/>
   <term name="판매자 전화번호" description="판매자의 연락처" physicalName="seller_phone"/>
   <term name="판매자 등록번호" description="판매자의 사업자등록번호" physicalName="seller_permitnum"/>
-  <term name="판매자 이름" description="판매자의 이름" physicalName="seller_name"/>
+  <term name="판매자 회사명" description="판매자의 이름" physicalName="seller_name"/>
   <term name="판매자 주소" description="판매자의 사업장주소" physicalName="seller_address"/>
   <term name="판매자 업종" description="판매자의 업종" physicalName="seller_business"/>
   <term name="구매 수량" description="주문의 수량" physicalName="orders_amount"/>
@@ -50,18 +50,15 @@
   <term name="대분류 이름" description="대분류 이름" physicalName="highcategory_name"/>
   <term name="소분류 번호" description="소분류 번호" physicalName="lowcategory_idx"/>
   <term name="소분류 이름" description="소분류 이름" physicalName="lowcategory_name"/>
-  <term name="경매 번호" description="경매 번호" physicalName="auction_idx"/>
-  <term name="경매 내용" description="경매 내용" physicalName="auction_content"/>
-  <term name="경매 마감날짜" description="경매 마감날짜" physicalName="auction_edate"/>
-  <term name="경매 기본금액" description="경매 기본금액" physicalName="auction_smoney"/>
-  <term name="경매 등록날짜" description="경매 시작날짜" physicalName="auction_wdate"/>
-  <term name="경매 입찰회수" description="경매 입찰횟수" physicalName="auction_sise"/>
-  <term name="경매 조회수" description="경매 조회수" physicalName="auction_hit"/>
-  <term name="입찰자 번호" description="입찰자 고유번호" physicalName="bidder_idx"/>
-  <term name="입찰자 이름" description="입찰자 이름" physicalName="bidder_name"/>
-  <term name="입찰자 이메일" description="입찰자 이메일" physicalName="bidder_email"/>
-  <term name="입찰자 전화번호" description="입찰자 전화번호" physicalName="bidder_phone"/>
-  <term name="입찰금액" description="입찰금액" physicalName="bidder_money"/>
+  <term name="경매 상품 번호" description="경매 번호" physicalName="aucproduct_idx"/>
+  <term name="경매 상품 설명" description="경매 내용" physicalName="aucproduct_content"/>
+  <term name="경매 상품 마감시간" description="경매 마감날짜" physicalName="aucproduct_endtime"/>
+  <term name="경매 상품 시작가격" description="경매 기본금액" physicalName="aucproduct_minprice"/>
+  <term name="입찰 번호" description="입찰자 고유번호" physicalName="bidding_idx"/>
+  <term name="입찰자 이름" description="입찰자 이름" physicalName="bidding_name"/>
+  <term name="입찰자 이메일" description="입찰자 이메일" physicalName="bidding_email"/>
+  <term name="입찰자 전화번호" description="입찰자 전화번호" physicalName="bidding_phone"/>
+  <term name="입찰금액" description="입찰금액" physicalName="bidding_money"/>
   <term name="상품 평점" description="상품 평점" physicalName="product_grade"/>
   <term name="FAQ 인덱스" description="FAQ 인덱스" physicalName="faq_idx"/>
   <term name="FAQ 제목" description="FAQ 제목" physicalName="faq_title"/>
@@ -80,4 +77,8 @@
   <term name="상품문의 질문" physicalName="productqna_question"/>
   <term name="상품문의 답변" physicalName="productqna_answer"/>
   <term name="상품문의 작성일" physicalName="productqna_date"/>
+  <term name="경매 상품 이름" physicalName="aucproduct_name"/>
+  <term name="경매 상품 이미지" physicalName="aucproduct_image"/>
+  <term name="경매상품여부" physicalName="product_isauction"/>
+  <term name="입찰 시간" physicalName="bidding_time"/>
 </tm:TermDictionary>
