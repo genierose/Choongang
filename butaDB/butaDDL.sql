@@ -1,11 +1,11 @@
 ALTER TABLE PRODUCT
 	DROP
-		CONSTRAINT FK_LOWCATEGORY_TO_PRODUCT
+		CONSTRAINT FK_SELLER_TO_PRODUCT
 		CASCADE;
 
 ALTER TABLE PRODUCT
 	DROP
-		CONSTRAINT FK_SELLER_TO_PRODUCT
+		CONSTRAINT FK_LOWCATEGORY_TO_PRODUCT
 		CASCADE;
 
 ALTER TABLE BASKET
@@ -33,14 +33,14 @@ ALTER TABLE LOWCATEGORY
 		CONSTRAINT FK_HIGHCATEGORY_TO_LOWCATEGORY
 		CASCADE;
 
-ALTER TABLE AUCTION
+ALTER TABLE BIDDING
 	DROP
-		CONSTRAINT FK_SELLER_TO_AUCTION
+		CONSTRAINT FK_PRODUCT_TO_BIDDING
 		CASCADE;
 
-ALTER TABLE AUCTION
+ALTER TABLE BIDDING
 	DROP
-		CONSTRAINT FK_BIDDER_TO_AUCTION
+		CONSTRAINT FK_BUYER_TO_BIDDING
 		CASCADE;
 
 ALTER TABLE ORDERS
@@ -61,6 +61,11 @@ ALTER TABLE QNA
 ALTER TABLE PRODUCTQNA
 	DROP
 		CONSTRAINT FK_PRODUCT_TO_PRODUCTQNA
+		CASCADE;
+
+ALTER TABLE PRODUCTQNA
+	DROP
+		CONSTRAINT FK_BUYER_TO_PRODUCTQNA
 		CASCADE;
 
 ALTER TABLE BUYER
@@ -111,13 +116,13 @@ ALTER TABLE LOWCATEGORY
 		CASCADE
 		KEEP INDEX;
 
-ALTER TABLE AUCTION
+ALTER TABLE AUCPRODUCT
 	DROP
 		PRIMARY KEY
 		CASCADE
 		KEEP INDEX;
 
-ALTER TABLE BIDDER
+ALTER TABLE BIDDING
 	DROP
 		PRIMARY KEY
 		CASCADE
@@ -179,12 +184,12 @@ DROP TABLE HIGHCATEGORY
 DROP TABLE LOWCATEGORY 
 	CASCADE CONSTRAINTS;
 
-/* 경매 */
-DROP TABLE AUCTION 
+/* 경매상품 */
+DROP TABLE AUCPRODUCT 
 	CASCADE CONSTRAINTS;
 
-/* 입찰자 */
-DROP TABLE BIDDER 
+/* 입찰건 */
+DROP TABLE BIDDING 
 	CASCADE CONSTRAINTS;
 
 /* 주문 */
@@ -245,6 +250,9 @@ DROP SEQUENCE notice_idxseq;
 
 /* 시퀀스13 */
 DROP SEQUENCE productqna_idxseq;
+
+/* 시퀀스14 */
+DROP SEQUENCE bidding_idxseq;
 
 /* 시퀀스 */
 CREATE SEQUENCE buyer_idxseq 
@@ -313,10 +321,22 @@ CREATE SEQUENCE ad_idxseq
 	START WITH 1;
 
 /* 시퀀스12 */
-CREATE SEQUENCE notice_idxseq;
+CREATE SEQUENCE notice_idxseq 
+	MINVALUE 1
+	INCREMENT BY 1
+	START WITH 1;
 
 /* 시퀀스13 */
-CREATE SEQUENCE productqna_idxseq;
+CREATE SEQUENCE productqna_idxseq 
+	MINVALUE 1
+	INCREMENT BY 1
+	START WITH 1;
+
+/* 시퀀스14 */
+CREATE SEQUENCE bidding_idxseq 
+	MINVALUE 1
+	INCREMENT BY 1
+	START WITH 1;
 
 /* 구매자 */
 CREATE TABLE BUYER (
@@ -344,15 +364,17 @@ ALTER TABLE BUYER
 CREATE TABLE PRODUCT (
 	product_idx INT NOT NULL, /* 상품 번호 */
 	product_name VARCHAR2(50) NOT NULL, /* 상품 이름 */
-	product_company VARCHAR2(1000) NOT NULL, /* 상품 제조회사 */
-	product_image VARCHAR2(1000) NOT NULL, /* 상품 이미지 */
 	product_content VARCHAR2(1000) NOT NULL, /* 상품 설명 */
+	product_image VARCHAR2(1000) NOT NULL, /* 상품 이미지 */
 	product_price INTEGER NOT NULL, /* 상품 가격 */
 	product_date DATE NOT NULL, /* 상품 등록일자 */
 	product_grade INTEGER NOT NULL, /* 상품 평점 */
 	lowcategory_idx INT NOT NULL, /* 소분류 번호 */
 	highcategory_idx INT NOT NULL, /* 대분류 번호 */
-	seller_idx INT NOT NULL /* 판매자 번호 */
+	seller_idx INT NOT NULL, /* 판매자 번호 */
+	product_isauction VARCHAR2(10) NOT NULL, /* 경매상품여부 */
+	aucproduct_minprice INTEGER, /* 경매 상품 시작가격 */
+	aucproduct_endtime DATE /* 경매 상품 마감시간 */
 );
 
 ALTER TABLE PRODUCT
@@ -399,7 +421,7 @@ CREATE TABLE SELLER (
 	seller_id VARCHAR2(100) NOT NULL, /* 판매자 아이디 */
 	seller_pw VARCHAR2(100) NOT NULL, /* 판매자 비밀번호 */
 	seller_permitnum INTEGER NOT NULL, /* 판매자 등록번호 */
-	seller_name VARCHAR2(50) NOT NULL, /* 판매자 이름 */
+	seller_name VARCHAR2(50) NOT NULL, /* 판매자 회사명 */
 	seller_address VARCHAR2(1000) NOT NULL, /* 판매자 주소 */
 	seller_email VARCHAR2(40) NOT NULL, /* 판매자 이메일 */
 	seller_phone VARCHAR2(30) NOT NULL, /* 판매자 전화번호 */
@@ -458,41 +480,40 @@ ALTER TABLE LOWCATEGORY
 			lowcategory_idx
 		);
 
-/* 경매 */
-CREATE TABLE AUCTION (
-	auction_idx INT NOT NULL, /* 경매 번호 */
-	seller_idx INT NOT NULL, /* 판매자 번호 */
-	seller_name VARCHAR2(50) NOT NULL, /* 판매자 이름 */
-	seller_phone VARCHAR2(30) NOT NULL, /* 판매자 전화번호 */
-	auction_content VARCHAR2(1000) NOT NULL, /* 경매 내용 */
-	auction_smoney INTEGER NOT NULL, /* 경매 기본금액 */
-	auction_wdate DATE NOT NULL, /* 경매 등록날짜 */
-	auction_edate DATE NOT NULL, /* 경매 마감날짜 */
-	auction_sise INT NOT NULL, /* 경매 입찰회수 */
-	bidder_idx INT NOT NULL /* 입찰자 번호 */
+/* 경매상품 */
+CREATE TABLE AUCPRODUCT (
+	aucproduct_idx INT NOT NULL, /* 경매 상품 번호 */
+	aucproduct_name VARCHAR2(50) NOT NULL, /* 경매 상품 이름 */
+	aucproduct_content VARCHAR2(1000) NOT NULL, /* 경매 상품 설명 */
+	aucproduct_image VARCHAR2(1000) NOT NULL, /* 경매 상품 이미지 */
+	aucproduct_minprice INTEGER NOT NULL, /* 경매 상품 시작가격 */
+	aucproduct_endtime DATE NOT NULL, /* 경매 상품 마감시간 */
+	lowcategory_idx INT NOT NULL, /* 소분류 번호 */
+	highcategory_idx INT NOT NULL, /* 대분류 번호 */
+	seller_idx INT NOT NULL /* 판매자 번호 */
 );
 
-ALTER TABLE AUCTION
+ALTER TABLE AUCPRODUCT
 	ADD
-		CONSTRAINT PK_AUCTION
+		CONSTRAINT PK_AUCPRODUCT
 		PRIMARY KEY (
-			auction_idx
+			aucproduct_idx
 		);
 
-/* 입찰자 */
-CREATE TABLE BIDDER (
-	bidder_idx INT NOT NULL, /* 입찰자 번호 */
-	bidder_name VARCHAR2(50) NOT NULL, /* 입찰자 이름 */
-	bidder_email VARCHAR2(40) NOT NULL, /* 입찰자 이메일 */
-	bidder_phone VARCHAR2(30) NOT NULL, /* 입찰자 전화번호 */
-	bidder_money INTEGER NOT NULL /* 입찰금액 */
+/* 입찰건 */
+CREATE TABLE BIDDING (
+	bidding_idx INT NOT NULL, /* 입찰 번호 */
+	product_idx INT NOT NULL, /* 상품 번호 */
+	buyer_idx INT NOT NULL, /* 구매자 번호 */
+	bidding_money INTEGER NOT NULL, /* 입찰금액 */
+	bidding_time DATE NOT NULL /* 입찰시간 */
 );
 
-ALTER TABLE BIDDER
+ALTER TABLE BIDDING
 	ADD
-		CONSTRAINT PK_BIDDER
+		CONSTRAINT PK_BIDDING
 		PRIMARY KEY (
-			bidder_idx
+			bidding_idx
 		);
 
 /* 주문 */
@@ -509,7 +530,7 @@ CREATE TABLE ORDERS (
 	buyer_address VARCHAR2(1000) NOT NULL, /* 구매자 집주소 */
 	buyer_email VARCHAR2(40) NOT NULL, /* 구매자 이메일 */
 	buyer_phone VARCHAR2(30) NOT NULL, /* 구매자 전화번호 */
-	basket_amount INTEGER NOT NULL, /* 구매 수량 */
+	orders_amount INTEGER NOT NULL, /* 구매 수량 */
 	orders_recname VARCHAR2(50) NOT NULL, /* 수령자 이름 */
 	orders_recaddress VARCHAR2(1000) NOT NULL, /* 수령자 주소 */
 	orders_recphone VARCHAR2(30) NOT NULL /* 수령자 전화번호 */
@@ -527,7 +548,7 @@ CREATE TABLE FAQ (
 	faq_idx INT NOT NULL, /* FAQ 인덱스 */
 	faq_title VARCHAR2(100) NOT NULL, /* FAQ 제목 */
 	faq_content VARCHAR2(1000) NOT NULL, /* FAQ 내용 */
-	faq_answer VARCHAR2(1000) /* FAQ 답변 */
+	faq_answer VARCHAR2(1000) NOT NULL /* FAQ 답변 */
 );
 
 ALTER TABLE FAQ
@@ -563,6 +584,7 @@ CREATE TABLE AD (
 CREATE TABLE PRODUCTQNA (
 	productqna_idx INT NOT NULL, /* 상품문의 인덱스 */
 	product_idx INT NOT NULL, /* 상품 번호 */
+	buyer_idx INT, /* 구매자 번호 */
 	productqna_question VARCHAR2(1000) NOT NULL, /* 상품문의 질문 */
 	productqna_answer VARCHAR2(1000), /* 상품문의 답변 */
 	productqna_date DATE NOT NULL /* 상품문의 작성일 */
@@ -577,22 +599,22 @@ ALTER TABLE PRODUCTQNA
 
 ALTER TABLE PRODUCT
 	ADD
-		CONSTRAINT FK_LOWCATEGORY_TO_PRODUCT
-		FOREIGN KEY (
-			lowcategory_idx
-		)
-		REFERENCES LOWCATEGORY (
-			lowcategory_idx
-		);
-
-ALTER TABLE PRODUCT
-	ADD
 		CONSTRAINT FK_SELLER_TO_PRODUCT
 		FOREIGN KEY (
 			seller_idx
 		)
 		REFERENCES SELLER (
 			seller_idx
+		);
+
+ALTER TABLE PRODUCT
+	ADD
+		CONSTRAINT FK_LOWCATEGORY_TO_PRODUCT
+		FOREIGN KEY (
+			lowcategory_idx
+		)
+		REFERENCES LOWCATEGORY (
+			lowcategory_idx
 		);
 
 ALTER TABLE BASKET
@@ -646,24 +668,24 @@ ALTER TABLE LOWCATEGORY
 			highcategory_idx
 		);
 
-ALTER TABLE AUCTION
+ALTER TABLE BIDDING
 	ADD
-		CONSTRAINT FK_SELLER_TO_AUCTION
+		CONSTRAINT FK_PRODUCT_TO_BIDDING
 		FOREIGN KEY (
-			seller_idx
+			product_idx
 		)
-		REFERENCES SELLER (
-			seller_idx
+		REFERENCES PRODUCT (
+			product_idx
 		);
 
-ALTER TABLE AUCTION
+ALTER TABLE BIDDING
 	ADD
-		CONSTRAINT FK_BIDDER_TO_AUCTION
+		CONSTRAINT FK_BUYER_TO_BIDDING
 		FOREIGN KEY (
-			bidder_idx
+			buyer_idx
 		)
-		REFERENCES BIDDER (
-			bidder_idx
+		REFERENCES BUYER (
+			buyer_idx
 		);
 
 ALTER TABLE ORDERS
@@ -704,4 +726,14 @@ ALTER TABLE PRODUCTQNA
 		)
 		REFERENCES PRODUCT (
 			product_idx
+		);
+
+ALTER TABLE PRODUCTQNA
+	ADD
+		CONSTRAINT FK_BUYER_TO_PRODUCTQNA
+		FOREIGN KEY (
+			buyer_idx
+		)
+		REFERENCES BUYER (
+			buyer_idx
 		);

@@ -22,7 +22,6 @@ INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,3,'축구화');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'윈터자켓');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'팬츠');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'티셔츠');
-INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'모자');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'탱크탑');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,4,'스커트/원피스');
 INSERT INTO Lowcategory VALUES(lowcategory_idxseq.nextval,5,'모자');
@@ -67,11 +66,11 @@ UPDATE Seller SET seller_pw='admin',seller_permitnum=2222222222,seller_name='이�
 --●●●●2.1 게시물 관리
 SELECT * FROM Product;
 --2.1.1 상품 등록
-INSERT INTO Product VALUES(product_idxseq.nextval,'상품이름','제조회사','이미지링크','설명',19900,SYSDATE,0,1,1,1);
+INSERT INTO Product VALUES(product_idxseq.nextval,'상품이름','설명','이미지링크',19900,SYSDATE,3,1,1,1,'false',null,null);
 --2.1.2 상품 보기
 SELECT * FROM Product WHERE product_idx = 1;
 --2.1.3 상품 수정
-UPDATE Product SET product_name='수정이름',product_company='수정회사명',product_image='수정이미지',product_content='수정내용',product_price=39000,product_grade=4,lowcategory_idx=1,highcategory_idx=1,seller_idx=1 WHERE product_idx =1;
+UPDATE Product SET product_name='수정이름',product_content='수정설명',product_image='수정이미지',product_price=39000,product_grade=4,lowcategory_idx=1,highcategory_idx=1,seller_idx=1 WHERE product_idx =1;
 --2.1.4 상품 삭제
 --DELETE FROM Product WHERE product_idx=1;
 -----------------------------------
@@ -89,7 +88,7 @@ UPDATE Review SET review_content='수정된글내용',review_grade='3' WHERE review_id
 --●●●●2.3 상품문의관리
 SELECT * FROM Productqna;
 --2.2.1 상품문의 질문작성
-INSERT INTO Productqna VALUES(productqna_idxseq.nextval,1,'질문질문',NULL,SYSDATE);
+INSERT INTO Productqna VALUES(productqna_idxseq.nextval,1,1,'질문질문',NULL,SYSDATE);
 --2.2.2 상품문의 답변작성
 UPDATE Productqna SET productqna_answer='답변답변' WHERE productqna_idx =1;
 --2.2.2 상품문의 보기
@@ -159,33 +158,41 @@ UPDATE Faq SET faq_title='faq제목',faq_content='faq내용',faq_answer='faq답변' WH
 --DELETE FROM Faq WHERE faq_idx=1;
 -----------------------------------
 --●●●●5.1 경매 게시물 관리
-SELECT * FROM AUCTION;
---5.1.1 상품 등록
-
---5.1.2 상품 보기
-
---5.1.3 상품 수정
-
---5.1.4 상품 삭제
-
-
+SELECT * FROM Product;
+--5.1.1 경매 상품 등록
+INSERT INTO Product VALUES(product_idxseq.nextval,'상품이름','설명','이미지링크',19900,SYSDATE,3,1,1,1,'true',79500,TO_DATE('2018-12-13 14:00:00','YYYY-MM-DD HH24:MI:SS'));
+--5.1.2 경매 상품 보기
+SELECT * FROM Product WHERE product_idx = 2;
+--5.1.3 경매 상품 수정
+UPDATE Product SET product_name='수정이름',product_content='수정설명',product_image='수정이미지',product_price=39000,product_grade=4,lowcategory_idx=1,highcategory_idx=1,seller_idx=1,aucproduct_minprice='9900',aucproduct_endtime=TO_DATE('2018-12-13 14:00:00','YYYY-MM-DD HH24:MI:SS') WHERE product_idx =1;
+--5.1.4 경매 상품 삭제
+--DELETE FROM Product WHERE product_idx=2;
 -----------------------------------
 --●●●●5.2 입찰관리
---5.2.1 경매 입찰/재입찰하기
-
---5.2.2 낙찰
+SELECT * FROM Bidding;
+--5.2.x 입찰보기 (이부분 엑셀에 없는데 필요할거같아서 넣음)
+SELECT * FROM Bidding WHERE product_idx=1;
+--5.2.1 경매 입찰하기
+INSERT INTO Bidding VALUES(bidding_idxseq.nextval,1,1,19500,SYSDATE);
+INSERT INTO Bidding VALUES(bidding_idxseq.nextval,1,1,20500,SYSDATE);
+--5.2.x 입찰취소 (이부분 엑셀에 없는데 필요할거같아서 넣음)
+DELETE FROM Bidding WHERE bidding_idx=1;
+--5.2.2 낙찰 (최고가 부른 사람)
+SELECT * FROM Bidding WHERE bidding_money=(SELECT MAX(bidding_money) FROM Bidding WHERE product_idx=1);
 
 -----------------------------------
---●●●●5.3 상품문의관리
---5.3.1 상품문의 질문작성
-
---5.3.2 상품문의 답변작성
-
---5.3.3 상품문의 보기
-
---5.3.3 상품문의 수정
-
---5.3.4 상품문의 삭제
+--●●●●5.3 경매상품문의관리
+SELECT * FROM Productqna;
+--5.3.1 경매상품문의 질문작성
+INSERT INTO Productqna VALUES(productqna_idxseq.nextval,1,1,'질문질문',NULL,SYSDATE);
+--5.3.2 경매상품문의 답변작성
+UPDATE Productqna SET productqna_answer='답변답변' WHERE productqna_idx =2;
+--5.3.3 경매상품문의 보기
+SELECT * FROM Productqna WHERE productqna_idx = 2;
+--5.3.3 경매상품문의 수정
+UPDATE Productqna SET productqna_question='수정된질문' WHERE productqna_idx=1;
+--5.3.4 경매상품문의 삭제
+--DELETE FROM Productqna WHERE productqna_idx=1;
 
 -----------------------------------
 --●●●●6.1. 광고관리
